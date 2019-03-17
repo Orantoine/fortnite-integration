@@ -1,9 +1,16 @@
 package fr.orantoine.fortniteintegration.models;
 
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
+import javax.annotation.Generated;
+
+@Document(collection = "Match")
 public class Match {
 
+    @Id
     private String id;
     private String accountId;
     private String playlist;
@@ -22,8 +29,9 @@ public class Match {
     private String platform;
     private String trnRating;
     private String trnRatingChange;
+    private String ratio;
 
-    public Match(String id, String accountId, String playlist, String kills, String minutesPlayed, String top1, String top5, String top6, String top10, String top12, String top25, String matches, String top3, String dateCollected, String score, String platform, String trnRating, String trnRatingChange) {
+    public Match(String id, String accountId, String playlist, String kills, String minutesPlayed, String top1, String top5, String top6, String top10, String top12, String top25, String matches, String top3, String dateCollected, String score, String platform, String trnRating, String trnRatingChange, String ratio) {
         this.id = id;
         this.accountId = accountId;
         this.playlist = playlist;
@@ -42,6 +50,7 @@ public class Match {
         this.platform = platform;
         this.trnRating = trnRating;
         this.trnRatingChange = trnRatingChange;
+        this.ratio = ratio;
     }
 
     public Match() {
@@ -191,6 +200,14 @@ public class Match {
         this.trnRatingChange = trnRatingChange;
     }
 
+    public String getRatio() {
+        return ratio;
+    }
+
+    public void setRatio(String ratio) {
+        this.ratio = ratio;
+    }
+
     @Override
     public String toString() {
         return "Match{" +
@@ -209,6 +226,7 @@ public class Match {
                 ", top3=" + top3 +
                 ", dateCollected=" + dateCollected +
                 ", score=" + score +
+                ", ratio=" + ratio +
                 ", platform=" + platform +
                 ", trnRating=" + trnRating +
                 ", trnRatingChange=" + trnRatingChange +
