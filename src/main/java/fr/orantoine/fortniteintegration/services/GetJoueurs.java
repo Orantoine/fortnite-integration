@@ -4,6 +4,8 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import fr.orantoine.fortniteintegration.models.Joueur;
+import fr.orantoine.fortniteintegration.repositories.JoueurRepository;
 import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -18,6 +20,9 @@ public class GetJoueurs {
 
     @Autowired
     private GenerateMatch generateMatch;
+
+    @Autowired
+    private JoueurRepository joueurRepository;
 
     private static final Logger log = LoggerFactory.getLogger(GetJoueurs.class);
 
@@ -39,7 +44,6 @@ public class GetJoueurs {
                             .header("TRN-Api-Key", "2dda56fe-8332-49f0-a4b5-7266757efdf4")
                             .header("cache-control", "no-cache").asString();
                     getInfo(jsonResponse.getBody());
-                    log.info("Recherche pour le compte de : "+joueur);
                 } catch (UnirestException e) {
                     e.printStackTrace();
                 }
@@ -52,5 +56,11 @@ public class GetJoueurs {
         JSONArray recentMatch = new JSONArray();
         recentMatch = jsonObject.getJSONArray("recentMatches");
         generateMatch.generateField(recentMatch.getJSONObject(0));
+    }
+
+    public String returnID(String pseudo){
+        Joueur joueur = joueurRepository.findByPseudo(pseudo);
+        String idJoueur = joueur.getAccountid();
+        return  idJoueur;
     }
 }

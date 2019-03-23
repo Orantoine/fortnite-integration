@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,6 @@ public class GenerateMatch {
         match.setKills(matchObject.get("kills").toString());
         match.setId(matchObject.get("id").toString());
         match.setAccountId(matchObject.get("accountId").toString());
-        match.setDateCollected(matchObject.get("dateCollected").toString());
         match.setMatches(matchObject.get("matches").toString());
         match.setPlatform(matchObject.get("platform").toString());
         match.setScore(matchObject.get("score").toString());
@@ -48,6 +48,8 @@ public class GenerateMatch {
         match.setTop10(matchObject.get("top10").toString());
         match.setTop25(matchObject.get("top25").toString());
         match.setTrnRating(matchObject.get("trnRating").toString());
+        Date date = new Date();
+        match.setDateCollected(date);
         float ratio = 0;
         if(Integer.parseInt(matchObject.get("matches").toString()) != 0){
             float kills = Float.parseFloat(matchObject.get("kills").toString());
