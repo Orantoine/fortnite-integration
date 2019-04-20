@@ -29,9 +29,10 @@ public class GenerateMatch {
     private JSONObject matchObject;
 
 
-    public void generateField(JSONObject object){
+    public void generateField(JSONObject object,String account){
         this.matchObject = object;
         Match match = new Match();
+        match.setAccountName(account);
         match.setKills(matchObject.get("kills").toString());
         match.setId(matchObject.get("id").toString());
         match.setAccountId(matchObject.get("accountId").toString());
@@ -40,7 +41,16 @@ public class GenerateMatch {
         match.setScore(matchObject.get("score").toString());
         match.setTop1(matchObject.get("top1").toString());
         match.setTop3(matchObject.get("top3").toString());
-        match.setPlaylist(matchObject.get("playlist").toString());
+        switch (matchObject.get("playlist").toString()){
+            case "p2" : match.setPlaylist("solo");
+                break;
+            case  "p9": match.setPlaylist("duo");
+                break;
+            case "p10": match.setPlaylist("squad");
+                break;
+            default: match.setPlaylist("autre");
+                break;
+        }
         match.setMinutesPlayed(matchObject.get("minutesPlayed").toString());
         match.setTop5(matchObject.get("top5").toString());
         match.setTop6(matchObject.get("top6").toString());

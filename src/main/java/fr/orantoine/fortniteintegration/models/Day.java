@@ -11,7 +11,7 @@ public class Day {
 
     @Id
     private String id;
-
+    private String accountName;
     private Date day;
     private int kills;
     private int matchs;
@@ -22,8 +22,9 @@ public class Day {
     private int wins;
     private String accountid;
 
-    public Day(String id, Date day, int kills, int matchs, int ratio, int duo, int solo, int section, int wins, String accountid) {
+    public Day(String id,String accountName,Date day, int kills, int matchs, int ratio, int duo, int solo, int section, int wins, String accountid) {
         this.id = id;
+        this.accountName = accountName;
         this.day = day;
         this.kills = kills;
         this.matchs = matchs;
@@ -118,10 +119,20 @@ public class Day {
         this.accountid = accountid;
     }
 
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+
     @Override
     public String toString() {
         return "Day{" +
                 "id='" + id + '\'' +
+                ", accountName='" + accountName + '\'' +
                 ", day=" + day +
                 ", kills=" + kills +
                 ", matchs=" + matchs +
