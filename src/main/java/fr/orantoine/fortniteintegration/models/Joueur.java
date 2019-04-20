@@ -3,6 +3,8 @@ package fr.orantoine.fortniteintegration.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Arrays;
+
 
 @Document(value = "Joueur")
 public class Joueur {
@@ -16,7 +18,9 @@ public class Joueur {
 
     private String adresse;
 
-    public Joueur(String id, String accountid, String pseudo, String adresse) {
+    private String[] plateforme;
+
+    public Joueur(String id, String accountid, String pseudo, String adresse,String[] plateforme) {
         this.id = id;
         this.accountid = accountid;
         this.pseudo = pseudo;
@@ -58,6 +62,14 @@ public class Joueur {
         this.adresse = adresse;
     }
 
+    public String[] getPlateforme() {
+        return plateforme;
+    }
+
+    public void setPlateforme(String[] plateforme) {
+        this.plateforme = plateforme;
+    }
+
     @Override
     public String toString() {
         return "Joueur{" +
@@ -65,6 +77,7 @@ public class Joueur {
                 ", accountid='" + accountid + '\'' +
                 ", pseudo='" + pseudo + '\'' +
                 ", adresse='" + adresse + '\'' +
+                ", plateforme=" + Arrays.toString(plateforme) +
                 '}';
     }
 }
