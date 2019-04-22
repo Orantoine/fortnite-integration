@@ -7,7 +7,7 @@ pipeline {
     environment {
         registry = "orantoine/fortnite-integration"
         registryCredential = 'dockerhub'
-        pom = readMavenPom file: 'pom.xml'
+        VERSION = readMavenPom().getVersion()
     }
     stages {
         stage ('Initialize') {
@@ -27,7 +27,7 @@ pipeline {
         stage('Post'){
             steps{
                 script {
-                        dockerImage = docker.build registry + ":"+pom.version
+                        dockerImage = docker.build registry + ":"+VERSION
                 }
             }
         }
