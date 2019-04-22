@@ -1,12 +1,10 @@
 package fr.orantoine.fortniteintegration.services;
 
 import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 import fr.orantoine.fortniteintegration.models.Joueur;
 import fr.orantoine.fortniteintegration.repositories.JoueurRepository;
-import netscape.javascript.JSObject;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
