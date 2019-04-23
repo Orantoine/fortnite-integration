@@ -44,9 +44,9 @@ public class GenerateMatch {
         switch (matchObject.get("playlist").toString()){
             case "p2" : match.setPlaylist("solo");
                 break;
-            case  "p9": match.setPlaylist("duo");
+            case  "p10": match.setPlaylist("duo");
                 break;
-            case "p10": match.setPlaylist("squad");
+            case "p9": match.setPlaylist("duo");
                 break;
             default: match.setPlaylist("autre");
                 break;
