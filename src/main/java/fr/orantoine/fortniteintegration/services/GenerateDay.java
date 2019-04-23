@@ -44,49 +44,52 @@ public class GenerateDay {
     public void generate(Joueur joueur){
         Date[] dates = intervalleconvertNowToDate();
         List<Match> listMatchs = matchRepository.findAllByAccountIdAndDateCollectedIsBetween(joueur.getAccountid(), dates[0], dates[1]);
-        log.info("Generation du bilan du match");
-        int matchs = 0;
-        int kills = 0;
-        int score = 0;
-        int duo = 0;
-        int section = 0;
-        int solo = 0;
-        int wins = 0;
-        String accountId = null;
-        Date date = new Date();
-        for (Match match : listMatchs) {
-            matchs += Integer.parseInt(match.getMatches());
-            kills += Integer.parseInt(match.getKills());
-            score += Integer.parseInt(match.getScore());
-            wins += Integer.parseInt(match.getTop1());
-            accountId = match.getAccountId();
-            switch (match.getPlaylist()){
-                case "solo" : solo++;
-                    break;
-                case "duo": duo++;
-                    break;
-                case "squad": section++;
-                    break;
-                default:
-                    break;
+        if (listMatchs.size()!=0 || listMatchs != null){
+            log.info("Generation du bilan du match");
+            int matchs = 0;
+            int kills = 0;
+            int score = 0;
+            int duo = 0;
+            int section = 0;
+            int solo = 0;
+            int wins = 0;
+            String accountId = null;
+            Date date = new Date();
+            for (Match match : listMatchs) {
+                matchs += Integer.parseInt(match.getMatches());
+                kills += Integer.parseInt(match.getKills());
+                score += Integer.parseInt(match.getScore());
+                wins += Integer.parseInt(match.getTop1());
+                accountId = match.getAccountId();
+                switch (match.getPlaylist()){
+                    case "solo" : solo++;
+                        break;
+                    case "duo": duo++;
+                        break;
+                    case "squad": section++;
+                        break;
+                    default:
+                        break;
+                }
             }
+            Day day = new Day();
+            day.setAccountid(accountId);
+            day.setDay(date);
+            day.setKills(kills);
+            day.setMatchs(matchs);
+            day.setDuo(duo);
+            day.setSolo(solo);
+            day.setSection(section);
+            day.setAccountName(joueur.getPseudo());
+            if(matchs > 0)
+                day.setRatio(Float.parseFloat(""+kills)/Float.parseFloat(matchs+""));
+            else
+                day.setRatio(0);
+            day.setWins(wins);
+            Day saveDay = dayRepository.save(day);
+            log.info("Nouvelle journée enregistrée avec succès. Son Id est le : "+saveDay.getId());
         }
-        Day day = new Day();
-        day.setAccountid(accountId);
-        day.setDay(date);
-        day.setKills(kills);
-        day.setMatchs(matchs);
-        day.setDuo(duo);
-        day.setSolo(solo);
-        day.setSection(section);
-        day.setAccountName(joueur.getPseudo());
-        if(matchs > 0)
-            day.setRatio(Float.parseFloat(""+kills)/Float.parseFloat(matchs+""));
-        else
-            day.setRatio(0);
-        day.setWins(wins);
-        Day saveDay = dayRepository.save(day);
-        log.info("Nouvelle journée enregistrée avec succès. Son Id est le : "+saveDay.getId());
+
     }
 
 }
