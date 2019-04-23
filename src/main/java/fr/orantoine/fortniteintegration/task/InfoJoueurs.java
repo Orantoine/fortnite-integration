@@ -11,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class InfoJoueurs {
@@ -37,7 +35,9 @@ public class InfoJoueurs {
     @Scheduled(cron = "0 0/1 * * * *",zone = "GMT+1:00")
     public void getData(){
         getJoueurs.searchJoueurs();
-        log.info("Récupération des données terminé "+ new Date());
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Date fromCalendar = calendar.getTime();
+        log.info("Récupération des données terminé " +  fromCalendar);
     }
 
     @Scheduled(cron = "00 59 23 * * *",zone = "GMT+1:00")
