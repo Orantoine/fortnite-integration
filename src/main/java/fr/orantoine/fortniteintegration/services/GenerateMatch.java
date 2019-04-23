@@ -13,9 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 
 @Service
@@ -58,8 +56,9 @@ public class GenerateMatch {
         match.setTop10(matchObject.get("top10").toString());
         match.setTop25(matchObject.get("top25").toString());
         match.setTrnRating(matchObject.get("trnRating").toString());
-        Date date = new Date();
-        match.setDateCollected(date);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Date fromCalendar = calendar.getTime();
+        match.setDateCollected(fromCalendar);
         float ratio = 0;
         if(Integer.parseInt(matchObject.get("matches").toString()) != 0){
             float kills = Float.parseFloat(matchObject.get("kills").toString());
