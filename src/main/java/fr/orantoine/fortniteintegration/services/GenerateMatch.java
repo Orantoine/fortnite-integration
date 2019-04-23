@@ -56,7 +56,7 @@ public class GenerateMatch {
         match.setTop10(matchObject.get("top10").toString());
         match.setTop25(matchObject.get("top25").toString());
         match.setTrnRating(matchObject.get("trnRating").toString());
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         Date fromCalendar = calendar.getTime();
         match.setDateCollected(fromCalendar);
         float ratio = 0;
