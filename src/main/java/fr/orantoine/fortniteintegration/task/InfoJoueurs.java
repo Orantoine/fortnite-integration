@@ -35,7 +35,7 @@ public class InfoJoueurs {
     @Scheduled(cron = "0 0/1 * * * *",zone = "GMT+1:00")
     public void getData(){
         getJoueurs.searchJoueurs();
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+1:00"));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Europe/Paris"));
         Date fromCalendar = calendar.getTime();
         log.info("Récupération des données terminé " +  fromCalendar);
     }
