@@ -48,7 +48,6 @@ public class InfoJoueurs {
                 generateDay.generate(joueur);
             }
         }
-
     }
 
 }
