@@ -24,6 +24,10 @@ public class GenerateMatch {
 
     private static final Logger log = LoggerFactory.getLogger(GenerateMatch.class);
 
+
+
+    private String alerting = System.getenv("Alerting");
+
     private JSONObject matchObject;
 
 
@@ -66,11 +70,13 @@ public class GenerateMatch {
             ratio = kills/matches;
             match.setRatio(String.valueOf(ratio));
         }
-        if("0".equals(match.getTop1())){
-            log.info("Envoie d'un message sur le webhook discord");
-            SendDiscord sendDiscord = new SendDiscord();
-            sendDiscord.sendMessage("Felicitation à "+ match.getAccountName() + "pour son TOP1 avec :" + match.getKills());
-            log.info("Message envoyé");
+        if(!"0".equals(match.getTop1())){
+            if(alerting != null && "true".equals(alerting)) {
+                log.info("Envoie d'un message sur le webhook discord");
+                SendDiscord sendDiscord = new SendDiscord();
+                sendDiscord.sendMessage("Felicitation à " + match.getAccountName() + "pour son TOP1 avec :" + match.getKills());
+                log.info("Message envoyé");
+            }
         }
         matchRepository.save(match);
 

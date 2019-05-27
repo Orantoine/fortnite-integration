@@ -21,12 +21,12 @@ public class JoueursController {
     private static final Logger log = LoggerFactory.getLogger(JoueursController.class);
 
 
-    @GetMapping(value = "/joueurs")
+    @GetMapping(value = "/integration/joueurs")
     public List<Joueur> findAll(){
         return joueurRepository.findAll();
     }
 
-    @PostMapping(value = "/joueurs")
+    @PostMapping(value = "/integration/joueurs")
     public Joueur addJoueur(@RequestBody Joueur joueur){
         log.debug("Voici le contenu du joueur" +joueur);
         return joueurRepository.save(joueur);
