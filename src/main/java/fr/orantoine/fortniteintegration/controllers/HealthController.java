@@ -10,7 +10,7 @@ public class HealthController {
 
 
 
-    @GetMapping(value = "/integration/health")
+    @GetMapping(value = "/health")
     public String HealthCheck(){
         return "OK";
     }
