@@ -29,6 +29,10 @@ public class GenerateMatch {
 
     private static final Logger log = LoggerFactory.getLogger(GenerateMatch.class);
 
+
+
+    private String alerting = System.getenv("Alerting");
+
     private JSONObject matchObject;
 
 

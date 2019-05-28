@@ -5,6 +5,6 @@ MAINTAINER antoine.godeau@sfr.fr
 VOLUME /tmp
 COPY target/*.jar fortnite-integration.jar
 
-EXPOSE 8080
+EXPOSE 8090
 
 ENTRYPOINT ["java","-jar","/fortnite-integration.jar"]
