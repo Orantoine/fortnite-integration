@@ -3,7 +3,6 @@ package fr.orantoine.fortniteintegration.models;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import javax.annotation.Generated;
 import java.util.Date;
 
 @Document(collection = "Day")
@@ -13,27 +12,24 @@ public class Day {
     private String id;
     private String accountName;
     private Date day;
-    private int kills;
-    private int matchs;
+    private float kills;
+    private float matchs;
     private float ratio;
-    private int duo;
-    private int solo;
-    private int section;
     private int wins;
     private String accountid;
+    private Match[] listMatchs;
 
-    public Day(String id,String accountName,Date day, int kills, int matchs, int ratio, int duo, int solo, int section, int wins, String accountid) {
+
+    public Day(String id,String accountName,Date day, float kills, float matchs, float ratio, int duo, int solo, int section, int wins, String accountid, Match[] listMatch) {
         this.id = id;
         this.accountName = accountName;
         this.day = day;
         this.kills = kills;
         this.matchs = matchs;
         this.ratio = ratio;
-        this.duo = duo;
-        this.solo = solo;
-        this.section = section;
         this.wins = wins;
         this.accountid = accountid;
+        this.listMatchs = listMatch;
     }
 
     public Day() {
@@ -55,19 +51,19 @@ public class Day {
         this.day = day;
     }
 
-    public int getKills() {
+    public float getKills() {
         return kills;
     }
 
-    public void setKills(int kills) {
+    public void setKills(float kills) {
         this.kills = kills;
     }
 
-    public int getMatchs() {
+    public float getMatchs() {
         return matchs;
     }
 
-    public void setMatchs(int matchs) {
+    public void setMatchs(float matchs) {
         this.matchs = matchs;
     }
 
@@ -77,30 +73,6 @@ public class Day {
 
     public void setRatio(float ratio) {
         this.ratio = ratio;
-    }
-
-    public int getDuo() {
-        return duo;
-    }
-
-    public void setDuo(int duo) {
-        this.duo = duo;
-    }
-
-    public int getSolo() {
-        return solo;
-    }
-
-    public void setSolo(int solo) {
-        this.solo = solo;
-    }
-
-    public int getSection() {
-        return section;
-    }
-
-    public void setSection(int section) {
-        this.section = section;
     }
 
     public int getWins() {
@@ -127,6 +99,13 @@ public class Day {
         this.accountName = accountName;
     }
 
+    public Match[] getListMatchs() {
+        return listMatchs;
+    }
+
+    public void setListMatchs(Match[] listMatchs) {
+        this.listMatchs = listMatchs;
+    }
 
     @Override
     public String toString() {
@@ -137,9 +116,6 @@ public class Day {
                 ", kills=" + kills +
                 ", matchs=" + matchs +
                 ", ratio=" + ratio +
-                ", duo=" + duo +
-                ", solo=" + solo +
-                ", section=" + section +
                 ", wins=" + wins +
                 ", accountid='" + accountid + '\'' +
                 '}';

@@ -54,7 +54,7 @@ public class GetJoueurs {
         JSONObject jsonObject = new JSONObject(jsonResponse);
         JSONArray recentMatch = new JSONArray();
         recentMatch = jsonObject.getJSONArray("recentMatches");
-        generateMatch.generateField(recentMatch.getJSONObject(0),pseudo);
+        generateMatch.generateFieldDay(recentMatch.getJSONObject(0),pseudo);
     }
 
 }

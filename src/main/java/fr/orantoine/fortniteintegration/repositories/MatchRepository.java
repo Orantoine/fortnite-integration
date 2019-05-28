@@ -10,7 +10,5 @@ import java.util.List;
 @Repository
 public interface MatchRepository extends MongoRepository<Match,String> {
 
-    List<Match> findAllByAccountId(String id);
-    List<Match> findAllByAccountIdAndDateCollectedIsBetween(String id, Date start, Date end);
 
 }

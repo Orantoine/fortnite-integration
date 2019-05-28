@@ -24,13 +24,6 @@ public class GetMatchs {
 
     private static final Logger log = LoggerFactory.getLogger(GetMatchs.class);
 
-    public void getMathByDay(String id, Date start, Date end){
-        List<Match> matchs = matchRepository.findAllByAccountIdAndDateCollectedIsBetween(id,start,end);
-        log.info("Voici les matchs de la dernière heure");
-        log.info(matchs.toString());
-        generateDay(matchs);
-    }
-
     public void generateDay(List<Match> listMatch){
         log.info("Generation du bilan du match");
         int matchs = 0;
@@ -45,9 +38,7 @@ public class GetMatchs {
         for (Match match : listMatch) {
                 matchs += Integer.parseInt(match.getMatches());
                 kills += Integer.parseInt(match.getKills());
-                score += Integer.parseInt(match.getScore());
                 wins += Integer.parseInt(match.getTop1());
-                accountId = match.getAccountId();
         }
         Day day = new Day();
         day.setAccountid(accountId);
