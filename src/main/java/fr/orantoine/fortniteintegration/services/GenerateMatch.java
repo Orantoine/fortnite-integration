@@ -142,9 +142,9 @@ public class GenerateMatch {
         }
         day.setAccountName(account);
         day.setAccountid(matchObject.get("accountId").toString());
-        day.setKills(Integer.parseInt(match.getKills()));
-        day.setRatio(Integer.parseInt(match.getRatio()));
-        day.setMatchs(Integer.parseInt(matchObject.get("matches").toString()));
+        day.setKills(Float.parseFloat(matchObject.get("kills").toString()));
+        day.setRatio(ratio);
+        day.setMatchs(Float.parseFloat(matchObject.get("matches").toString()));
         Match[] listmatch = {match};
         day.setListMatchs(listmatch);
         day.setWins(Integer.parseInt(match.getTop1()));
