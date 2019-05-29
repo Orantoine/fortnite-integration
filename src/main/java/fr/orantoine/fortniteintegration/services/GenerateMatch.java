@@ -15,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -111,45 +112,50 @@ public class GenerateMatch {
     }
 
     private void createnewDay(JSONObject object, String account) {
-        Day day = new Day();
-        Match match = new Match();
-        match.setKills(matchObject.get("kills").toString());
-        match.setId(matchObject.get("id").toString());
-        match.setMatches(matchObject.get("matches").toString());
-        match.setTop1(matchObject.get("top1").toString());
-        match.setTop3(matchObject.get("top3").toString());
-        switch (matchObject.get("playlist").toString()) {
-            case "p2":
-                match.setPlaylist("solo");
-                break;
-            case "p10":
-                match.setPlaylist("duo");
-                break;
-            case "p9":
-                match.setPlaylist("suquad");
-                break;
-            default:
-                match.setPlaylist("autre");
-                break;
+        Date[] dates = intervalleconvertNowToDate();
+        String journee = extractDate(matchObject.get("dateCollected").toString());
+        String reference = extractDate(dates[0].toString());
+        if(journee.equals(reference)) {
+            Day day = new Day();
+            Match match = new Match();
+            match.setKills(matchObject.get("kills").toString());
+            match.setId(matchObject.get("id").toString());
+            match.setMatches(matchObject.get("matches").toString());
+            match.setTop1(matchObject.get("top1").toString());
+            match.setTop3(matchObject.get("top3").toString());
+            switch (matchObject.get("playlist").toString()) {
+                case "p2":
+                    match.setPlaylist("solo");
+                    break;
+                case "p10":
+                    match.setPlaylist("duo");
+                    break;
+                case "p9":
+                    match.setPlaylist("suquad");
+                    break;
+                default:
+                    match.setPlaylist("autre");
+                    break;
+            }
+            match.setMinutesPlayed(matchObject.get("minutesPlayed").toString());
+            float ratio = 0;
+            if (Integer.parseInt(matchObject.get("matches").toString()) != 0) {
+                float kills = Float.parseFloat(matchObject.get("kills").toString());
+                float matches = Float.parseFloat(matchObject.get("matches").toString());
+                ratio = kills / matches;
+                match.setRatio(String.valueOf(ratio));
+            }
+            day.setAccountName(account);
+            day.setAccountid(matchObject.get("accountId").toString());
+            day.setKills(Float.parseFloat(matchObject.get("kills").toString()));
+            day.setRatio(ratio);
+            day.setMatchs(Float.parseFloat(matchObject.get("matches").toString()));
+            Match[] listmatch = {match};
+            day.setListMatchs(listmatch);
+            day.setWins(Integer.parseInt(match.getTop1()));
+            day.setDay(new Date());
+            dayRepository.save(day);
         }
-        match.setMinutesPlayed(matchObject.get("minutesPlayed").toString());
-        float ratio = 0;
-        if (Integer.parseInt(matchObject.get("matches").toString()) != 0) {
-            float kills = Float.parseFloat(matchObject.get("kills").toString());
-            float matches = Float.parseFloat(matchObject.get("matches").toString());
-            ratio = kills / matches;
-            match.setRatio(String.valueOf(ratio));
-        }
-        day.setAccountName(account);
-        day.setAccountid(matchObject.get("accountId").toString());
-        day.setKills(Float.parseFloat(matchObject.get("kills").toString()));
-        day.setRatio(ratio);
-        day.setMatchs(Float.parseFloat(matchObject.get("matches").toString()));
-        Match[] listmatch = {match};
-        day.setListMatchs(listmatch);
-        day.setWins(Integer.parseInt(match.getTop1()));
-        day.setDay(new Date());
-        dayRepository.save(day);
     }
 
     public Date[] intervalleconvertNowToDate(){
@@ -165,6 +171,11 @@ public class GenerateMatch {
         Date soir = calendarSoir.getTime();
         Date[] intervalle = {matin,soir};
         return intervalle;
+    }
+
+    public String extractDate(String date){
+        String[] result = date.split("T");
+        return result[0];
     }
 
 
