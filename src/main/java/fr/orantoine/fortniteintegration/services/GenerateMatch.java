@@ -4,18 +4,12 @@ import fr.orantoine.fortniteintegration.models.Day;
 import fr.orantoine.fortniteintegration.models.Match;
 import fr.orantoine.fortniteintegration.repositories.DayRepository;
 import fr.orantoine.fortniteintegration.repositories.MatchRepository;
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.text.SimpleDateFormat;
 import java.util.*;
 
 
@@ -38,14 +32,34 @@ public class GenerateMatch {
 
 
     public void generateFieldDay(JSONObject object,String account){
-        this.matchObject = object;
+        String id = extractId(object);
+        Day day = dayRepository.findFirstByDayOrderByDay();
+        boolean contain = matchIsPresent(id,day);
+
         Date[] dates = intervalleconvertNowToDate();
-        List<Day> day = dayRepository.findAllByDayBetweenAndAccountNameEquals(dates[0],dates[1],account);
-        if (day == null || day.size()==0)
-            createnewDay(object,account);
-        else{
-            addMatchToDay(day,object,account);
+        List<Day> days = dayRepository.findAllByDayBetweenAndAccountNameEquals(dates[0],dates[1],account);
+        if ((days == null || days.size()==0) && contain == true) {
+            log.info("Création d'une nouvelle journée pour le joueur : " + account);
+            createnewDay(object, account);
+        }else{
+            addMatchToDay(days,object,account);
+            log.info("Ajout du match à la journée pour le compte "+account);
         }
+
+    }
+
+    private boolean matchIsPresent(String id, Day day) {
+        boolean contain = false;
+        for (Match match : day.getListMatchs()) {
+            if(match.getId().equals(id)) contain = true;
+        }
+        return contain;
+    }
+
+    private String extractId(JSONObject object) {
+
+        String id = object.get("id").toString();
+        return id;
 
     }
 
