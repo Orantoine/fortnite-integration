@@ -52,9 +52,9 @@ public class GetJoueurs {
 
     public void getInfo(String jsonResponse,String pseudo){
         JSONObject jsonObject = new JSONObject(jsonResponse);
-        JSONArray recentMatch = new JSONArray();
-        recentMatch = jsonObject.getJSONArray("recentMatches");
-        generateMatch.generateFieldDay(recentMatch.getJSONObject(0),pseudo);
+        JSONArray recentMatch = jsonObject.getJSONArray("recentMatches");
+        if(recentMatch.length()!=0 || recentMatch !=null)
+            generateMatch.generateFieldDay(recentMatch.getJSONObject(0),pseudo);
     }
 
 }

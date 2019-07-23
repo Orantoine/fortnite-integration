@@ -33,28 +33,39 @@ public class GenerateMatch {
 
     public void generateFieldDay(JSONObject object,String account){
         String id = extractId(object);
-        Day day = dayRepository.findFirstByDayOrderByDay();
-        boolean contain = matchIsPresent(id,day);
+        List<Day> days = dayRepository.findAllByAccountName(account);
+        log.info("Les jours sont récupérés les voicis pour "+account);
+        log.info(days.toString());
+        boolean present = isPresent(days,id); // On vérifie si le match existe déja en bdd
+        if(!present){
+            log.info("Match non présent : "+id);
+            Date[] dates = intervalleconvertNowToDate();
+            List<Day> days2 = dayRepository.findAllByDayBetweenAndAccountNameEquals(dates[0],dates[1],account);
+            if ((days2 == null || days2.size()==0)) {
+                log.info("Création d'une nouvelle journée pour le joueur : " + account);
+                createnewDay(object, account);
+            }else{
+                addMatchToDay(days2,object,account);
+                log.info("Ajout du match à la journée pour le compte "+account);
+            }
 
-        Date[] dates = intervalleconvertNowToDate();
-        List<Day> days = dayRepository.findAllByDayBetweenAndAccountNameEquals(dates[0],dates[1],account);
-        if ((days == null || days.size()==0) && contain == true) {
-            log.info("Création d'une nouvelle journée pour le joueur : " + account);
-            createnewDay(object, account);
-        }else{
-            addMatchToDay(days,object,account);
-            log.info("Ajout du match à la journée pour le compte "+account);
         }
 
     }
 
-    private boolean matchIsPresent(String id, Day day) {
-        boolean contain = false;
-        for (Match match : day.getListMatchs()) {
-            if(match.getId().equals(id)) contain = true;
+
+    private boolean isPresent(List<Day> days, String id) {
+        boolean present = false;
+        for (Day day : days) {
+            for (Match match : day.getListMatchs()){
+                if (match.getId().equals(id)){
+                    present = true;
+                }
+            }
         }
-        return contain;
+        return present;
     }
+
 
     private String extractId(JSONObject object) {
 
