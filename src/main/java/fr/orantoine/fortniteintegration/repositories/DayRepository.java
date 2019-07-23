@@ -9,5 +9,6 @@ import java.util.List;
 public interface DayRepository extends MongoRepository<Day,String> {
 
     List<Day> findAllByDayBetweenAndAccountNameEquals(Date start, Date end,String accountName);
+    Day findFirstByDayOrderByDay();
 
 }
